@@ -1,0 +1,2544 @@
+Slip 1
+
+Q. 1) Write a PHP script to keep track of number of times the web page has been accessed (Use Session 
+Tracking).
+
+<?php
+session_start();
+if(isset($_SESSION['views']))
+    $_SESSION['views'] = $_SESSION['views']+1;
+else
+    $_SESSION['views'] = 1;
+echo "This page has been accessed ".$_SESSION['views']." times.";
+?>
+
+Q. 2)Create ‘Position_Salaries’ Data set. Build a linear regression model by identifying independent and 
+target variable. Split the variables into training and testing sets. then divide the training and testing sets 
+into a 7:3 ratio, respectively and print them. Build a simple linear regression model.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Create Position_Salaries dataset
+data = {'Position': ['Business Analyst', 'Junior Consultant', 'Senior Consultant', 'Manager', 'Country Manager', 'Region Manager', 'Partner', 'Senior Partner', 'C-level', 'CEO'],
+        'Salary': [45000, 50000, 60000, 80000, 110000, 150000, 200000, 300000, 500000, 1000000]}
+df = pd.DataFrame(data)
+
+# Identify independent and target variables
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+# Split the data into training and testing sets (70:30 ratio)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+
+# Print the training and testing sets
+print("Training set:")
+print(X_train)
+print(y_train)
+print("Testing set:")
+print(X_test)
+print(y_test)
+
+# Build a simple linear regression model
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+# Make predictions on the testing set
+y_pred = regressor.predict(X_test)
+
+
+
+
+Slip 2
+
+Q. 1Write a PHP script to change the preferences of your web page like font style, font size, font color, 
+background color using cookie. Display selected setting on next web page and actual implementation 
+(with new settings) on third page (Use Cookies).
+
+//preferences.php
+
+<?php
+if (isset($_POST['submit'])) {
+    // Set cookie values for preferences
+    setcookie('font_style', $_POST['font_style'], time() + (86400 * 30));
+    setcookie('font_size', $_POST['font_size'], time() + (86400 * 30));
+    setcookie('font_color', $_POST['font_color'], time() + (86400 * 30));
+    setcookie('background_color', $_POST['background_color'], time() + (86400 * 30));
+    header('Location: display.php');
+}
+?>
+
+<!-- Form for setting preferences -->
+<form method="post" action="">
+    <label for="font_style">Font style:</label>
+    <select name="font_style" id="font_style">
+        <option value="Arial">Arial</option>
+        <option value="Courier">Courier</option>
+        <option value="Times New Roman">Times New Roman</option>
+    </select><br>
+    <label for="font_size">Font size:</label>
+    <input type="number" name="font_size" id="font_size"><br>
+    <label for="font_color">Font color:</label>
+    <input type="color" name="font_color" id="font_color"><br>
+    <label for="background_color">Background color:</label>
+    <input type="color" name="background_color" id="background_color"><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+//display.php
+<?php
+// Check if cookies are set
+if (isset($_COOKIE['font_style']) && isset($_COOKIE['font_size']) && isset($_COOKIE['font_color']) && isset($_COOKIE['background_color'])) {
+    // Retrieve cookie values
+    $font_style = $_COOKIE['font_style'];
+    $font_size = $_COOKIE['font_size'];
+    $font_color = $_COOKIE['font_color'];
+    $background_color = $_COOKIE['background_color'];
+    
+    // Display selected settings
+    echo "Selected settings:<br>";
+    echo "Font style: $font_style<br>";
+    echo "Font size: $font_size<br>";
+    echo "Font color: $font_color<br>";
+    echo "Background color: $background_color<br>";
+    
+    // Link to implementation page
+    echo "<a href='implementation.php'>See implementation</a>";
+} else {
+    // Redirect to preferences page if cookies are not set
+    header('Location: preferences.php');
+}
+
+//implementation.php
+<?php
+// Check if cookies are set
+if (isset($_COOKIE['font_style']) && isset($_COOKIE['font_size']) && isset($_COOKIE['font_color']) && isset($_COOKIE['background_color'])) {
+    // Retrieve cookie values
+    $font_style = $_COOKIE['font_style'];
+    $font_size = $_COOKIE['font_size'];
+    $font_color = $_COOKIE['font_color'];
+    $background_color = $_COOKIE['background_color'];
+    
+    // Set styles according to preferences
+    echo "<style>";
+    echo "body {";
+        echo "background-color: $background_color;";
+        echo "color: $font_color;";
+        echo "font-family: $font_style;";
+        echo "fontSize: ${fontSize}px;";
+        echo "}";
+        echo "</style>";
+        
+        // Display content with new settings
+        echo "<h1>Welcome to my web page!</h1>";
+        echo "<p>This is some sample text.</p>";
+} else {
+// Redirect to preferences page if cookies are not set
+header('Location: preferences.php');
+}
+
+Q. 2)Create ‘Salary’ Data set . Build a linear regression model by identifying independent and target 
+variable. Split the variables into training and testing sets and print them. Build a simple linear regression 
+model for predicting purchases. 
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Create Salary dataset
+data = {'Salary': [1000, 2000, 3000, 4000, 5000],
+        'Purchases': [10, 20, 30, 40, 50]}
+df = pd.DataFrame(data)
+
+# Identify independent and target variables
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+# Print the training and testing sets
+print("Training set:")
+print(X_train)
+print(y_train)
+print("Testing set:")
+print(X_test)
+print(y_test)
+
+# Build a simple linear regression model
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+# Make predictions on the testing set
+y_pred = regressor.predict(X_test)
+
+
+
+Slip 3
+
+Write a PHP script to accept username and password. If in the first three chances, username and 
+password entered is correct then display second form with “Welcome message” otherwise display error 
+message. [Use Session] 
+
+<?php
+session_start();
+
+// Set correct username and password
+$correct_username = 'admin';
+$correct_password = 'password';
+
+// Check if form was submitted
+if (isset($_POST['submit'])) {
+    // Check if username and password are correct
+    if ($_POST['username'] == $correct_username && $_POST['password'] == $correct_password) {
+        // Display welcome message
+        echo "Welcome, $correct_username!";
+    } else {
+        // Increment number of failed attempts
+        if (isset($_SESSION['failed_attempts'])) {
+            $_SESSION['failed_attempts']++;
+        } else {
+            $_SESSION['failed_attempts'] = 1;
+        }
+        
+        // Check if user has exceeded maximum number of attempts
+        if ($_SESSION['failed_attempts'] >= 3) {
+            // Display error message
+            echo "Error: You have exceeded the maximum number of login attempts.";
+        } else {
+            // Display login form again
+            echo "Incorrect username or password. Please try again.<br>";
+            echo "<form method='post' action=''>";
+            echo "<label for='username'>Username:</label>";
+            echo "<input type='text' name='username' id='username'><br>";
+            echo "<label for='password'>Password:</label>";
+            echo "<input type='password' name='password' id='password'><br>";
+            echo "<input type='submit' name='submit' value='Submit'>";
+            echo "</form>";
+        }
+    }
+} else {
+    // Display login form
+    echo "<form method='post' action=''>";
+    echo "<label for='username'>Username:</label>";
+    echo "<input type='text' name='username' id='username'><br>";
+    echo "<label for='password'>Password:</label>";
+    echo "<input type='password' name='password' id='password'><br>";
+    echo "<input type='submit' name='submit' value='Submit'>";
+    echo "</form>";
+}
+?>
+
+Create ‘User’ Data set having 5 columns namely: User ID, Gender, Age, Estimated Salary and 
+Purchased. Build a logistic regression model that can predict whether on the given parameter a person 
+will buy a car or not. 
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Create User dataset
+data = {'User ID': [1, 2, 3, 4, 5],
+        'Gender': ['Male', 'Female', 'Male', 'Female', 'Male'],
+        'Age': [25, 30, 35, 40, 45],
+        'Estimated Salary': [30000, 40000, 50000, 60000, 70000],
+        'Purchased': [0, 1, 0, 1, 1]}
+df = pd.DataFrame(data)
+
+# Convert categorical variable (Gender) to numerical values
+df['Gender'] = df['Gender'].map({'Male': 0, 'Female': 1})
+
+# Identify independent and target variables
+X = df.iloc[:, 1:-1].values
+y = df.iloc[:, -1].values
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+# Build a logistic regression model
+classifier = LogisticRegression()
+classifier.fit(X_train, y_train)
+
+# Make predictions on the testing set
+y_pred = classifier.predict(X_test)
+
+
+
+
+Slip 4
+
+Write a PHP script to accept Employee details (Eno, Ename, Address) on first page. On second 
+page accept earning (Basic, DA, HRA). On third page print Employee information (Eno, Ename, Address, 
+Basic, DA, HRA, Total) [ Use Session]
+
+//employee_details.php
+<?php
+session_start();
+
+// Check if form was submitted
+if (isset($_POST['submit'])) {
+    // Store employee details in session variables
+    $_SESSION['Eno'] = $_POST['Eno'];
+    $_SESSION['Ename'] = $_POST['Ename'];
+    $_SESSION['Address'] = $_POST['Address'];
+    
+    // Redirect to earnings page
+    header('Location: earnings.php');
+}
+?>
+
+<!-- Form for entering employee details -->
+<form method="post" action="">
+    <label for="Eno">Employee Number:</label>
+    <input type="number" name="Eno" id="Eno"><br>
+    <label for="Ename">Employee Name:</label>
+    <input type="text" name="Ename" id="Ename"><br>
+    <label for="Address">Address:</label>
+    <input type="text" name="Address" id="Address"><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+//earnings.php
+<?php
+session_start();
+
+// Check if form was submitted
+if (isset($_POST['submit'])) {
+    // Store earnings in session variables
+    $_SESSION['Basic'] = $_POST['Basic'];
+    $_SESSION['DA'] = $_POST['DA'];
+    $_SESSION['HRA'] = $_POST['HRA'];
+    
+    // Redirect to display page
+    header('Location: display.php');
+}
+?>
+
+<!-- Form for entering earnings -->
+<form method="post" action="">
+    <label for="Basic">Basic:</label>
+    <input type="number" name="Basic" id="Basic"><br>
+    <label for="DA">DA:</label>
+    <input type="number" name="DA" id="DA"><br>
+    <label for="HRA">HRA:</label>
+    <input type="number" name="HRA" id="HRA"><br>
+    <input type="submit" name="submit" value="Submit">
+</form>
+
+//display.php
+<?php
+session_start();
+
+// Check if all required session variables are set
+if (isset($_SESSION['Eno']) && isset($_SESSION['Ename']) && isset($_SESSION['Address']) && isset($_SESSION['Basic']) && isset($_SESSION['DA']) && isset($_SESSION['HRA'])) {
+    // Calculate total earnings
+    $total = $_SESSION['Basic'] + $_SESSION['DA'] + $_SESSION['HRA'];
+    
+    // Display employee information
+    echo "Employee Number: " . $_SESSION['Eno'] . "<br>";
+    echo "Employee Name: " . $_SESSION['Ename'] . "<br>";
+    echo "Address: " . $_SESSION['Address'] . "<br>";
+    echo "Basic: " . $_SESSION['Basic'] . "<br>";
+    echo "DA: " . $_SESSION['DA'] . "<br>";
+    echo "HRA: " . $_SESSION['HRA'] . "<br>";
+    echo "Total: $total<br>";
+} else {
+// Redirect to employee details page if session variables are not set
+header('Location: employee_details.php');
+}
+
+
+Q. Build a simple linear regression model for Fish Species Weight Prediction.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Load Fish Market Dataset
+df = pd.read_csv('Fish.csv')
+
+# Identify independent and target variables
+X = df.iloc[:, 2:].values
+y = df.iloc[:, 1].values
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+# Build a simple linear regression model
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+# Make predictions on the testing set
+y_pred = regressor.predict(X_test)
+
+
+
+
+Slip 5
+
+Create XML file named “Item.xml”with item-name, item-rate, item quantity Store the details of 5 
+Items of different Types
+
+//Item.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+    <item>
+        <item-name>Item 1</item-name>
+        <item-rate>10</item-rate>
+        <item-quantity>5</item-quantity>
+    </item>
+    <item>
+        <item-name>Item 2</item-name>
+        <item-rate>20</item-rate>
+        <item-quantity>10</item-quantity>
+    </item>
+    <item>
+        <item-name>Item 3</item-name>
+        <item-rate>30</item-rate>
+        <item-quantity>15</item-quantity>
+    </item>
+    <item>
+        <item-name>Item 4</item-name>
+        <item-rate>40</item-rate>
+        <item-quantity>20</item-quantity>
+    </item>
+    <item>
+        <item-name>Item 5</item-name>
+        <item-rate>50</item-rate>
+        <item-quantity>25</item-quantity>
+    </item>
+</items>
+
+
+Use the iris dataset. Write a Python program to view some basic statistical details like percentile, 
+mean, std etc. of the species of 'Iris-setosa', 'Iris-versicolor' and 'Iris-virginica'. Apply logistic regression 
+on the dataset to identify different species (setosa, versicolor, verginica) of Iris flowers given just 4 
+features: sepal and petal lengths and widths.. Find the accuracy of the model. 
+
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+import pandas as pd
+
+# Load iris dataset
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# Create a DataFrame from the iris dataset
+df = pd.DataFrame(data=iris['data'], columns=iris['feature_names'])
+df['species'] = iris['target']
+
+# View basic statistical details of each species
+print("Iris-setosa:")
+print(df[df['species'] == 0].describe())
+print("\nIris-versicolor:")
+print(df[df['species'] == 1].describe())
+print("\nIris-virginica:")
+print(df[df['species'] == 2].describe())
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+# Build a logistic regression model
+classifier = LogisticRegression()
+classifier.fit(X_train, y_train)
+
+# Make predictions on the testing set
+y_pred = classifier.predict(X_test)
+
+# Calculate the accuracy of the model
+accuracy = accuracy_score(y_test, y_pred)
+print("\nAccuracy:", accuracy)
+
+
+
+
+Slip 6
+
+Write PHP script to read “book.xml” file into simpleXML object. Display attributes and elements .
+( simple_xml_load_file() function )
+
+<?php
+// Load book.xml file into SimpleXML object
+$xml = simplexml_load_file('book.xml');
+
+// Display attributes and elements
+foreach ($xml->book as $book) {
+    echo "Book: " . $book['category'] . "<br>";
+    echo "Title: " . $book->title . "<br>";
+    echo "Author: " . $book->author . "<br>";
+    echo "Year: " . $book->year . "<br>";
+    echo "Price: " . $book->price . "<br><br>";
+}
+?>
+
+
+Create the following dataset in python & Convert the categorical values into numeric format.Apply 
+the apriori algorithm on the above dataset to generate the frequent itemsets and association rules. Repeat 
+the process with different min_sup values.
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+ 
+data = [['Milk', 'Egg', 'Bread'],
+        ['Milk', 'Bread'],
+        ['Milk', 'Egg', 'Bread', 'Cheese'],
+        ['Milk', 'Egg'],
+        ['Bread', 'Cheese']]
+ 
+te = TransactionEncoder()
+te_ary = te.fit_transform(data)
+tid = pd.DataFrame(te_ary, columns=te.columns_)
+items = tid.astype('int')
+ 
+items = items.replace({True: 1, False: 0})
+ 
+min_sup_values = [0.4, 0.6, 0.8]
+ 
+for min_sup in min_sup_values:
+   
+    frequent_itemsets = apriori(items, min_support=min_sup, use_colnames=True)
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+ 
+    print('Min support:', min_sup)
+    print('Frequent itemsets:')
+    print(frequent_itemsets)
+    print('Association rules:')
+    print(rules)
+    print()
+ 
+
+
+
+
+Slip 7
+
+Write a PHP script to read “Movie.xml” file and print all MovieTitle and ActorName of file using 
+DOMDocument Parser. “Movie.xml” file should contain following information with at least 5 records 
+with values. MovieInfoMovieNo, MovieTitle, ActorName ,ReleaseYear
+
+<?php
+// Create a new DOMDocument object
+$doc = new DOMDocument();
+
+// Load Movie.xml file into DOMDocument object
+$doc->load('Movie.xml');
+
+// Get all MovieInfo elements
+$movieInfos = $doc->getElementsByTagName('MovieInfo');
+
+// Iterate over each MovieInfo element
+foreach ($movieInfos as $movieInfo) {
+    // Get MovieTitle and ActorName elements
+    $movieTitle = $movieInfo->getElementsByTagName('MovieTitle')->item(0)->nodeValue;
+    $actorName = $movieInfo->getElementsByTagName('ActorName')->item(0)->nodeValue;
+    
+    // Print MovieTitle and ActorName
+    echo "Movie Title: $movieTitle<br>";
+    echo "Actor Name: $actorName<br><br>";
+}
+?>
+
+Download the Market basket dataset. Write a python program to read the dataset and display its 
+information. Preprocess the data (drop null values etc.) Convert the categorical values into numeric 
+format. Apply the apriori algorithm on the above dataset to generate the frequent itemsets and association 
+rules.
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori
+
+# Load Groceries Market Basket Dataset
+df = pd.read_csv('Groceries.csv', header=None)
+
+# Preprocess data
+df = df.dropna()
+
+# Convert categorical values into numeric format
+te = TransactionEncoder()
+te_ary = te.fit(df.values).transform(df.values)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+# Apply apriori algorithm
+frequent_itemsets = apriori(df, min_support=0.05, use_colnames=True)
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+
+# Display frequent itemsets and association rules
+print("Frequent itemsets:")
+print(frequent_itemsets)
+print("\nAssociation rules:")
+print(rules)
+
+
+
+
+
+Slip 8
+
+Q. 1) Write a JavaScript to display message ‘Exams are near, have you started preparing for?’ (usealert
+box ) and Accept any two numbers from user and display addition of two number .(Use Prompt and 
+confirm box)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Example</title>
+</head>
+<body>
+    <script>
+        // Your JavaScript code here
+        alert('Exams are near, have you started preparing for?');
+        let num1 = prompt('Enter the first number:');
+        let num2 = prompt('Enter the second number:');
+        num1 = Number(num1);
+        num2 = Number(num2);
+        let sum = num1 + num2;
+        confirm(`The sum of ${num1} and ${num2} is ${sum}.`);
+    </script>
+</body>
+</html>
+
+
+Q. 2)Download the groceries dataset. Write a python program to read the dataset and display its 
+information. Preprocess the data (drop null values etc.) Convert the categorical values into numeric 
+format. Apply the apriori algorithm on the above dataset to generate the frequent itemsets and association 
+rules
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori
+
+# Load Groceries Market Basket Dataset
+df = pd.read_csv('Groceries.csv', header=None)
+
+# Preprocess data
+df = df.dropna()
+
+# Convert categorical values into numeric format
+te = TransactionEncoder()
+te_ary = te.fit(df.values).transform(df.values)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+# Apply apriori algorithm
+frequent_itemsets = apriori(df, min_support=0.05, use_colnames=True)
+rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+
+# Display frequent itemsets and association rules
+print("Frequent itemsets:")
+print(frequent_itemsets)
+print("\nAssociation rules:")
+print(rules)
+
+
+
+
+Slip 9
+
+Write a JavaScript function to validate username and password for a membership form.
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Validate Username and Password</title>
+</head>
+<body>
+    <h1>Validate Username and Password</h1>
+    <script>
+        function validate(username, password) {
+            // Define the minimum length for username and password
+            const MIN_LENGTH = 8;
+            
+            // Check if the username and password meet the minimum length requirement
+            if (username.length < MIN_LENGTH || password.length < MIN_LENGTH) {
+                return false;
+            }
+            
+            // Check if the password contains at least one number and one special character
+            const hasNumber = /\d/;
+            const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+            if (!hasNumber.test(password) || !hasSpecialChar.test(password)) {
+                return false;
+            }
+            
+            // If all checks pass, return true
+            return true;
+        }
+        
+        // Call the validate function with a username and password
+        console.log(validate('myusername', 'mypassword123!'));
+    </script>
+</body>
+</html>
+
+
+Create your own transactions dataset and apply the above process on your dataset.
+
+//Incomplete Question
+
+
+
+
+
+
+Slip 10
+
+Q. 1) Create a HTML fileto insert text before and after a Paragraph using jQuery. [Hint : Use before( ) 
+and after( )]
+
+//insertText.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insert Text using jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Insert Text using jQuery</h1>
+    <p id="myParagraph">This is a paragraph.</p>
+    <script>
+        // Insert text before the paragraph
+        $('#myParagraph').before('<p>This text was inserted before the paragraph.</p>');
+        
+        // Insert text after the paragraph
+        $('#myParagraph').after('<p>This text was inserted after the paragraph.</p>');
+    </script>
+</body>
+</html>
+
+
+Create the following dataset in python & Convert the categorical values into numeric format.Apply 
+the apriori algorithm on the above dataset to generate the frequent itemsets and association rules. Repeat 
+the process with different min_sup values. 
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+ 
+data = [['Milk', 'Egg', 'Bread'],
+        ['Milk', 'Bread'],
+        ['Milk', 'Egg', 'Bread', 'Cheese'],
+        ['Milk', 'Egg'],
+        ['Bread', 'Cheese']]
+ 
+te = TransactionEncoder()
+te_ary = te.fit_transform(data)
+tid = pd.DataFrame(te_ary, columns=te.columns_)
+items = tid.astype('int')
+ 
+items = items.replace({True: 1, False: 0})
+ 
+min_sup_values = [0.4, 0.6, 0.8]
+ 
+for min_sup in min_sup_values:
+    frequent_itemsets = apriori(items, min_support=min_sup, use_colnames=True)
+ 
+    rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.7)
+    print('Min support:', min_sup)
+    print('Frequent itemsets:')
+    print(frequent_itemsets)
+    print('Association rules:')
+    print(rules)
+    print()
+
+
+
+
+
+
+Slip 11
+
+Q. 1) Write a Javascript program to accept name of student, change font color to red, font size to 18 if 
+student name is present otherwise on clicking on empty text box display image which changes its size 
+(Use onblur, onload, onmousehover, onmouseclick, onmouseup)
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Name</title>
+    <style>
+        #studentName {
+            font-size: 18px;
+        }
+        #myImage {
+            display: none;
+            width: 200px;
+        }
+        #myImage:hover {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Name</h1>
+    <input type="text" id="studentName" onblur="checkName()" onclick="showImage()">
+    <img id="myImage" src="https://picsum.photos/200">
+    <script>
+        function checkName() {
+            var studentName = document.getElementById('studentName');
+            if (studentName.value) {
+                studentName.style.color = 'red';
+            } else {
+                studentName.style.color = 'black';
+            }
+        }
+        
+        function showImage() {
+            var studentName = document.getElementById('studentName');
+            var myImage = document.getElementById('myImage');
+            if (!studentName.value) {
+                myImage.style.display = 'block';
+            } else {
+                myImage.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+Create the following dataset in python & Convert the categorical values into numeric format.Apply 
+the apriori algorithm on the above dataset to generate the frequent itemsets and associationrules. Repeat 
+the process with different min_sup values.
+
+//slip 10
+
+
+
+
+
+Slip 12
+
+
+Write AJAX program to read contact.dat file and print the contents of the file in a tabular format 
+when the user clicks on print button. Contact.dat file should contain srno, name, residence number, 
+mobile number, Address. [Enter at least 3 record in contact.dat file] 
+
+//contact.dat
+[
+    {
+        "srno": 1,
+        "name": "Alice",
+        "residenceNumber": "1234567890",
+        "mobileNumber": "0987654321",
+        "address": "123 Main St"
+    },
+    {
+        "srno": 2,
+        "name": "Bob",
+        "residenceNumber": "2345678901",
+        "mobileNumber": "1987654321",
+        "address": "456 Elm St"
+    },
+    {
+        "srno": 3,
+        "name": "Charlie",
+        "residenceNumber": "3456789012",
+        "mobileNumber": "2987654321",
+        "address": "789 Oak St"
+    }
+]
+
+
+//html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Read Contact File</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Read Contact File</h1>
+    <button onclick="printContacts()">Print Contacts</button>
+    <table id="contactsTable">
+        <tr>
+            <th>Sr. No.</th>
+            <th>Name</th>
+            <th>Residence Number</th>
+            <th>Mobile Number</th>
+            <th>Address</th>
+        </tr>
+    </table>
+    <script>
+        function printContacts() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var contacts = JSON.parse(this.responseText);
+                    var table = document.getElementById('contactsTable');
+                    for (var i = 0; i < contacts.length; i++) {
+                        var row = table.insertRow(-1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+                        cell1.innerHTML = contacts[i].srno;
+                        cell2.innerHTML = contacts[i].name;
+                        cell3.innerHTML = contacts[i].residenceNumber;
+                        cell4.innerHTML = contacts[i].mobileNumber;
+                        cell5.innerHTML = contacts[i].address;
+                    }
+                }
+            };
+            xhr.open('GET', 'contact.dat', true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
+
+
+Create ‘heights-and-weights’ Data set . Build a linear regression model by identifying independent 
+and target variable. Split the variables into training and testing sets and print them. Build a simple linear 
+regression model for predicting purchases. 
+
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Create the heights-and-weights dataset
+heights = np.array([62, 64, 66, 68, 70, 72])
+weights = np.array([120, 136, 150, 163, 172, 175])
+
+# Reshape the data to fit the model
+X = heights.reshape(-1, 1)
+y = weights
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Print the training and testing sets
+print('Training set:')
+print(X_train)
+print(y_train)
+print('Testing set:')
+print(X_test)
+print(y_test)
+
+# Build a simple linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict weight for a given height
+height = 65
+predicted_weight = model.predict([[height]])
+print(f'Predicted weight for height {height}: {predicted_weight[0]:.2f}')
+
+
+
+
+
+Slip 13
+
+Q. 1) Write AJAX program where the user is requested to write his or her name in a text box, and the 
+server keeps sending back responses while the user is typing. If the user name is not entered then the 
+message displayed will be, “Stranger, please tell me your name!”. If the name is Rohit, Virat, Dhoni, 
+Ashwin or Harbhajan , the server responds with “Hello, master !”. If the name is anything else, the 
+message will be “, I don’t know you!”
+
+//checkName.php
+<?php
+$name = $_GET['name'];
+if (empty($name)) {
+    echo 'Stranger, please tell me your name!';
+} elseif (in_array($name, ['Rohit', 'Virat', 'Dhoni', 'Ashwin', 'Harbhajan'])) {
+    echo 'Hello, master!';
+} else {
+    echo $name . ', I don’t know you!';
+}
+?>
+
+
+//html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Name Check</title>
+</head>
+<body>
+    <h1>AJAX Name Check</h1>
+    <input type="text" id="nameInput" onkeyup="checkName()">
+    <p id="response"></p>
+    <script>
+        function checkName() {
+            var name = document.getElementById('nameInput').value;
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('response').innerHTML = this.responseText;
+                }
+            };
+            xhr.open('GET', 'checkName.php?name=' + name, true);
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
+
+
+Download nursery dataset from UCI. Build a linear regression model by identifying independent 
+and target variable. Split the variables into training and testing sets and print them. Build a simple linear 
+regression model for predicting purchases.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+
+# Load the Nursery dataset
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.data'
+columns = ['parents', 'has_nurs', 'form', 'children', 'housing', 'finance', 'social', 'health', 'class']
+data = pd.read_csv(url, names=columns)
+
+# One-hot encode the categorical features
+encoder = OneHotEncoder()
+X = encoder.fit_transform(data.drop('class', axis=1))
+y = data['class']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Build a logistic regression model
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+
+# Evaluate the model on the testing set
+score = model.score(X_test, y_test)
+print(f'Test accuracy: {score:.2f}')
+
+
+
+
+
+Slip 14
+
+Q. 1) Create TEACHER table as follows TEACHER(tno, tname, qualification, salary). Write Ajax 
+program to select a teachers name and print the selected teachers details
+
+//sql
+CREATE TABLE TEACHER (
+    tno INT PRIMARY KEY,
+    tname VARCHAR(255),
+    qualification VARCHAR(255),
+    salary INT
+);
+
+-- Insert some example data
+INSERT INTO TEACHER (tno, tname, qualification, salary)
+VALUES (1, 'Alice', 'PhD', 80000),
+       (2, 'Bob', 'MSc', 60000),
+       (3, 'Charlie', 'MA', 50000);
+
+//html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Teacher Details</title>
+</head>
+<body>
+    <h1>AJAX Teacher Details</h1>
+    <label for="teacherSelect">Select a teacher:</label>
+    <select id="teacherSelect" onchange="getTeacherDetails()">
+        <option value="">--Select a teacher--</option>
+        <option value="1">Alice</option>
+        <option value="2">Bob</option>
+        <option value="3">Charlie</option>
+    </select>
+    <div id="teacherDetails"></div>
+    <script>
+        function getTeacherDetails() {
+            var tno = document.getElementById('teacherSelect').value;
+            if (tno) {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById('teacherDetails').innerHTML = this.responseText;
+                    }
+                };
+                xhr.open('GET', 'getTeacherDetails.php?tno=' + tno, true);
+                xhr.send();
+            } else {
+                document.getElementById('teacherDetails').innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>
+
+//getTeacherDetails.php
+<?php
+$tno = $_GET['tno'];
+
+// Connect to the database
+$db = new mysqli('hostname', 'username', 'password', 'database_name');
+
+// Query the database for the details of the selected teacher
+$query = "SELECT * FROM TEACHER WHERE tno = $tno";
+$result = $db->query($query);
+$row = $result->fetch_assoc();
+
+// Send back the teacher details as an HTML table
+echo '<table>';
+echo '<tr><th>TNo</th><td>' . $row['tno'] . '</td></tr>';
+echo '<tr><th>Name</th><td>' . $row['tname'] . '</td></tr>';
+echo '<tr><th>Qualification</th><td>' . $row['qualification'] . '</td></tr>';
+echo '<tr><th>Salary</th><td>' . $row['salary'] . '</td></tr>';
+echo '</table>';
+
+$db->close();
+?>
+
+
+Q. 2)Create the following dataset in python & Convert the categorical values into numeric format.Apply 
+the apriori algorithm on the above dataset to generate the frequent itemsets and association rules. Repeat 
+the process with different min_sup values.
+
+//slip 10
+
+
+
+
+
+Slip 15
+
+Q. 1) Write Ajax program to fetch suggestions when is user is typing in a textbox. (eg like google 
+suggestions. Hint create array of suggestions and matching string will be displayed) 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX Suggestions</title>
+</head>
+<body>
+    <h1>AJAX Suggestions</h1>
+    <input type="text" id="searchInput" onkeyup="getSuggestions()">
+    <ul id="suggestions"></ul>
+    <script>
+        var suggestions = ['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape'];
+        
+        function getSuggestions() {
+            var searchInput = document.getElementById('searchInput').value;
+            var suggestionsList = document.getElementById('suggestions');
+            suggestionsList.innerHTML = '';
+            if (searchInput) {
+                for (var i = 0; i < suggestions.length; i++) {
+                    if (suggestions[i].startsWith(searchInput)) {
+                        var suggestion = document.createElement('li');
+                        suggestion.innerHTML = suggestions[i];
+                        suggestionsList.appendChild(suggestion);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
+Q. 2)Create the following dataset in python & Convert the categorical values into numeric format.Apply 
+the apriori algorithm on the above dataset to generate the frequent itemsets and association rules. Repeat 
+the process with different min_sup values
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+ 
+dataset = [['tata', 'nexon', '2017'],
+           ['MG', 'astor', '2021'],
+           ['KIA', 'seltos', '2019'],
+            ['hyundai', 'creta', '2015']
+          ]
+te = TransactionEncoder()
+te_ary = te.fit_transform(dataset)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+ 
+for min_sup in [0.2, 0.4]:
+    frequent_itemsets = apriori(df, min_support=min_sup, use_colnames=True)
+    association_rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.5)
+ 
+    # Display the results
+    print(f"Frequent Itemsets with minimum support of {min_sup}:")
+    print(frequent_itemsets)
+ 
+    print(f"Association Rules with minimum support of {min_sup}:")
+    print(association_rules)
+
+
+
+
+Slip 16
+
+Q. 1) Write Ajax program to get book details from XML file when user select a book name. Create XML 
+file for storing details of book(title, author, year, price). 
+
+//books.xml
+ <?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+  <book>
+    <title>Book 1</title>
+    <author>Author 1</author>
+    <year>2001</year>
+    <price>10.00</price>
+  </book>
+  <book>
+    <title>Book 2</title>
+    <author>Author 2</author>
+    <year>2002</year>
+    <price>20.00</price>
+  </book>
+  <book>
+    <title>Book 3</title>
+    <author>Author 3</author>
+    <year>2003</year>
+    <price>30.00</price>
+  </book>
+</catalog>
+
+//index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajax Book Details</title>
+</head>
+<body>
+  <h1>Ajax Book Details</h1>
+
+  <label for="bookSelect">Select a book:</label>
+  <select id="bookSelect" onchange="showBookDetails(this.value)">
+    <option value="">Select a book:</option>
+    <option value="Book 1">Book 1</option>
+    <option value="Book 2">Book 2</option>
+    <option value="Book 3">Book 3</option>
+  </select>
+
+  <div id="bookDetails"></div>
+
+  <script>
+    function showBookDetails(bookTitle) {
+      if (bookTitle === "") {
+        document.getElementById("bookDetails").innerHTML = "";
+        return;
+      }
+
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          let xmlDoc = this.responseXML;
+          let books = xmlDoc.getElementsByTagName("book");
+          for (let i = 0; i < books.length; i++) {
+            let title = books[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+            if (title === bookTitle) {
+              let author = books[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
+              let year = books[i].getElementsByTagName("year")[0].childNodes[0].nodeValue;
+              let price = books[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+              document.getElementById("bookDetails").innerHTML = `
+                Title: ${title}<br />
+                Author: ${author}<br />
+                Year: ${year}<br />
+                Price: ${price}
+              `;
+              break;
+            }
+          }
+        }
+      };
+      xhttp.open("GET", "books.xml", true);
+      xhttp.send();
+    }
+  </script>
+
+</body>
+</html>
+
+
+Q. 2)Consider any text paragraph. Preprocess the text to remove any special characters and digits. 
+Generate the summary using extractive summarization process
+
+import re
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+text = """
+In 2021, the world's first space hotel is set to open. The hotel, named Voyager Station, will be operated by Orbital Assembly Corporation. It will have 24 modules connected by elevator shafts that make up a rotating wheel orbiting the Earth. The hotel will have artificial gravity, and guests will be able to participate in recreational activities such as low-gravity basketball and rock climbing.
+"""
+
+# Preprocess the text to remove special characters and digits
+text = re.sub(r'[^a-zA-Z\s]', '', text)
+
+# Tokenize the text into sentences
+sentences = sent_tokenize(text)
+
+# Tokenize the text into words
+words = word_tokenize(text)
+
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+words = [word for word in words if word not in stop_words]
+
+# Stem the words
+stemmer = PorterStemmer()
+words = [stemmer.stem(word) for word in words]
+
+# Calculate the frequency of each word
+word_frequencies = {}
+for word in words:
+    if word not in word_frequencies:
+        word_frequencies[word] = 1
+    else:
+        word_frequencies[word] += 1
+
+# Calculate the weighted frequency of each word
+max_frequency = max(word_frequencies.values())
+for word in word_frequencies.keys():
+    word_frequencies[word] /= max_frequency
+
+# Calculate the sentence scores
+sentence_scores = {}
+for sentence in sentences:
+    for word in word_tokenize(sentence):
+        if word in word_frequencies:
+            if sentence not in sentence_scores:
+                sentence_scores[sentence] = word_frequencies[word]
+            else:
+                sentence_scores[sentence] += word_frequencies[word]
+
+# Generate the summary
+summary_length = 2 # number of sentences in the summary
+summary_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:summary_length]
+summary = ' '.join(summary_sentences)
+
+print(summary)
+
+
+
+
+Slip 17
+
+Write a Java Script Program to show Hello Good Morning message onload event using alert box 
+and display the Student registration from.
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Registration</title>
+</head>
+<body onload="showGreeting()">
+
+  <h1>Student Registration</h1>
+
+  <form>
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName"><br><br>
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName"><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    function showGreeting() {
+      alert("Hello Good Morning!");
+    }
+  </script>
+
+</body>
+</html>
+
+
+Consider text paragraph.So, keep working. Keep striving. Never give up. Fall down seven times, get 
+up eight. Ease is a greater threat to progress than hardship. Ease is a greater threat to progress than 
+hardship. So, keep moving, keep growing, keep learning. See you at work.Preprocess the text to remove 
+any special characters and digits. Generate the summary using extractive summarization process.
+
+import re
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+text = """
+So, keep working. Keep striving. Never give up. Fall down seven times, get up eight. Ease is a greater threat to progress than hardship. Ease is a greater threat to progress than hardship. So, keep moving, keep growing, keep learning. See you at work.
+"""
+
+# Preprocess the text to remove special characters and digits
+text = re.sub(r'[^a-zA-Z\s]', '', text)
+
+# Tokenize the text into sentences
+sentences = sent_tokenize(text)
+
+# Tokenize the text into words
+words = word_tokenize(text)
+
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+words = [word for word in words if word not in stop_words]
+
+# Stem the words
+stemmer = PorterStemmer()
+words = [stemmer.stem(word) for word in words]
+
+# Calculate the frequency of each word
+word_frequencies = {}
+for word in words:
+    if word not in word_frequencies:
+        word_frequencies[word] = 1
+    else:
+        word_frequencies[word] += 1
+
+# Calculate the weighted frequency of each word
+max_frequency = max(word_frequencies.values())
+for word in word_frequencies.keys():
+    word_frequencies[word] /= max_frequency
+
+# Calculate the sentence scores
+sentence_scores = {}
+for sentence in sentences:
+    for word in word_tokenize(sentence):
+        if word in word_frequencies:
+            if sentence not in sentence_scores:
+                sentence_scores[sentence] = word_frequencies[word]
+            else:
+                sentence_scores[sentence] += word_frequencies[word]
+
+# Generate the summary
+summary_length = 2 # number of sentences in the summary
+summary_sentences = sorted(sentence_scores, key=sentence_scores.get, reverse=True)[:summary_length]
+summary = ' '.join(summary_sentences)
+
+print(summary)
+
+
+
+
+
+
+Slip 18
+
+Write a Java Script Program to print Fibonacci numbers on onclick event
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fibonacci Sequence Generator</title>
+</head>
+<body>
+  <h1>Fibonacci Sequence Generator</h1>
+  <button onclick="generateFibonacci()">Generate Fibonacci Sequence</button>
+  <p id="output"></p>
+
+  <script>
+    function generateFibonacci() {
+      let n1 = 0, n2 = 1, nextTerm;
+      let output = 'Fibonacci Sequence: ';
+      
+      for (let i = 1; i <= 10; i++) {
+        output += n1 + ', ';
+        nextTerm = n1 + n2;
+        n1 = n2;
+        n2 = nextTerm;
+      }
+      
+      document.getElementById('output').innerHTML = output;
+    }
+  </script>
+</body>
+</html>
+
+
+Consider any text paragraph. Remove the stopwords. Tokenize the paragraph to extract words and 
+sentences. Calculate the word frequency distribution and plot the frequencies. Plot the wordcloud of the 
+text
+
+import matplotlib.pyplot as plt
+from nltk.corpus import stopwords
+from nltk.probability import FreqDist
+from nltk.tokenize import word_tokenize, sent_tokenize
+from wordcloud import WordCloud
+
+text = """
+In 2021, the world's first space hotel is set to open. The hotel, named Voyager Station, will be operated by Orbital Assembly Corporation. It will have 24 modules connected by elevator shafts that make up a rotating wheel orbiting the Earth. The hotel will have artificial gravity, and guests will be able to participate in recreational activities such as low-gravity basketball and rock climbing.
+"""
+
+# Tokenize the text into sentences
+sentences = sent_tokenize(text)
+
+# Tokenize the text into words
+words = word_tokenize(text)
+
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+words = [word for word in words if word not in stop_words]
+
+# Calculate the frequency distribution of words
+fdist = FreqDist(words)
+
+# Plot the frequency distribution
+fdist.plot(30, cumulative=False)
+plt.show()
+
+# Generate the word cloud
+wordcloud = WordCloud(width=800, height=800, background_color='white', stopwords=stop_words, min_font_size=10).generate(text)
+
+# Plot the word cloud
+plt.figure(figsize=(8, 8), facecolor=None)
+plt.imshow(wordcloud)
+plt.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+
+
+
+
+
+Slip 19
+
+Write a Java Script Program to validate user name and password on onSubmit event
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form Validation</title>
+</head>
+<body>
+
+  <h1>Form Validation</h1>
+
+  <form onsubmit="return validateForm()">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <input type="submit" value="Submit">
+  </form>
+
+  <script>
+    function validateForm() {
+      let username = document.getElementById("username").value;
+      let password = document.getElementById("password").value;
+
+      if (username === "") {
+        alert("Username must be filled out");
+        return false;
+      }
+
+      if (password === "") {
+        alert("Password must be filled out");
+        return false;
+      }
+
+      if (password.length < 8) {
+        alert("Password must be at least 8 characters long");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+
+</body>
+</html>
+
+
+Download the movie_review.csv dataset from Kaggle by using the following link 
+:https://www.kaggle.com/nltkdata/movie-review/version/3?select=movie_review.csv to perform 
+sentiment analysis on above dataset and create a wordcloud.
+
+import pandas as pd
+from nltk.corpus import stopwords
+from nltk.sentiment import SentimentIntensityAnalyzer
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+# Load the dataset
+df = pd.read_csv('movie_review.csv')
+
+# Initialize the sentiment analyzer
+sia = SentimentIntensityAnalyzer()
+
+# Calculate the sentiment scores for each review
+df['sentiment'] = df['text'].apply(lambda x: sia.polarity_scores(x)['compound'])
+
+# Generate the word cloud
+stop_words = set(stopwords.words('english'))
+wordcloud = WordCloud(width=800, height=800, background_color='white', stopwords=stop_words, min_font_size=10).generate(' '.join(df['text']))
+
+# Plot the word cloud
+plt.figure(figsize=(8, 8), facecolor=None)
+plt.imshow(wordcloud)
+plt.axis('off')
+plt.tight_layout(pad=0)
+plt.show()
+
+
+
+
+Slip 20
+
+create a student.xml file containing at least 5 student information 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<students>
+  <student>
+    <name>John Doe</name>
+    <age>20</age>
+    <major>Computer Science</major>
+  </student>
+  <student>
+    <name>Jane Smith</name>
+    <age>21</age>
+    <major>Mathematics</major>
+  </student>
+  <student>
+    <name>Bob Johnson</name>
+    <age>22</age>
+    <major>Physics</major>
+  </student>
+  <student>
+    <name>Alice Williams</name>
+    <age>19</age>
+    <major>Biology</major>
+  </student>
+  <student>
+    <name>Charlie Brown</name>
+    <age>23</age>
+    <major>Chemistry</major>
+  </student>
+</students>
+
+
+Consider text paragraph."""Hello all, Welcome to Python Programming Academy. Python 
+Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled 
+in this Academy."""Remove the stopwords. 
+
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+text = """Hello all, Welcome to Python Programming Academy. Python Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled in this Academy."""
+
+# Tokenize the text into words
+words = word_tokenize(text)
+
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+filtered_words = [word for word in words if word not in stop_words]
+
+# Join the filtered words back into a string
+filtered_text = ' '.join(filtered_words)
+
+print(filtered_text)
+
+
+
+
+Slip 21
+
+Add a JavaScript File in Codeigniter. The Javascript code should check whether a number is 
+positive or negative. 
+
+//checkNumber.js
+
+function checkNumber(num) {
+  if (num > 0) {
+    console.log(num + " is positive");
+  } else if (num < 0) {
+    console.log(num + " is negative");
+  } else {
+    console.log(num + " is zero");
+  }
+}
+
+
+//html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Check Number</title>
+  <script src="<?php echo base_url('assets/js/checkNumber.js'); ?>"></script>
+</head>
+<body>
+
+<!-- Your HTML code here -->
+
+</body>
+</html>
+
+
+//can add this in html
+<!-- Your HTML code here -->
+<input type="number" id="numberInput">
+<button onclick="checkNumber(document.getElementById('numberInput').value)">Check Number</button>
+
+
+
+Build a simple linear regression model for User Data.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Load the data
+data = pd.read_csv('user_data.csv')
+
+# Split the data into input (X) and output (y) variables
+X = data[['age']]
+y = data['income']
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Create and fit the linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+score = model.score(X_test, y_test)
+print('R-squared:', score)
+
+
+
+
+Slip 22
+
+Create a table student having attributes(rollno, name, class). Using codeigniter, connect to the 
+database and insert 5 recodes in it. 
+
+//student table in codeignitor
+
+CREATE TABLE student (
+  rollno INT PRIMARY KEY,
+  name VARCHAR(255),
+  class VARCHAR(255)
+);
+
+
+//php
+<?php
+
+class Student extends CI_Controller {
+
+  public function __construct() {
+    parent::__construct();
+    $this->load->database();
+  }
+
+  public function insert_students() {
+    $data = array(
+      array(
+        'rollno' => 1,
+        'name' => 'John Doe',
+        'class' => 'A'
+      ),
+      array(
+        'rollno' => 2,
+        'name' => 'Jane Smith',
+        'class' => 'B'
+      ),
+      array(
+        'rollno' => 3,
+        'name' => 'Bob Johnson',
+        'class' => 'C'
+      ),
+      array(
+        'rollno' => 4,
+        'name' => 'Alice Williams',
+        'class' => 'D'
+      ),
+      array(
+        'rollno' => 5,
+        'name' => 'Charlie Brown',
+        'class' => 'E'
+      )
+    );
+
+    $this->db->insert_batch('student', $data);
+  }
+
+}
+
+
+Q. Consider any text paragraph. Remove the stopwords. 
+
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
+text = """In 2021, the world's first space hotel is set to open. The hotel, named Voyager Station, will be operated by Orbital Assembly Corporation. It will have 24 modules connected by elevator shafts that make up a rotating wheel orbiting the Earth. The hotel will have artificial gravity, and guests will be able to participate in recreational activities such as low-gravity basketball and rock climbing."""
+
+# Tokenize the text into words
+words = word_tokenize(text)
+
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+filtered_words = [word for word in words if word not in stop_words]
+
+# Join the filtered words back into a string
+filtered_text = ' '.join(filtered_words)
+
+print(filtered_text)
+
+
+
+
+Slip 23
+
+Create a table student having attributes(rollno, name, class) containing atleast 5 recodes . Using 
+codeigniter, display all its records. 
+
+//student table
+CREATE TABLE student (
+  rollno INT PRIMARY KEY,
+  name VARCHAR(255),
+  class VARCHAR(255)
+);
+
+//php
+<?php
+
+class Student extends CI_Controller {
+
+  public function __construct() {
+    parent::__construct();
+    $this->load->database();
+  }
+
+  public function insert_students() {
+    $data = array(
+      array(
+        'rollno' => 1,
+        'name' => 'John Doe',
+        'class' => 'A'
+      ),
+      array(
+        'rollno' => 2,
+        'name' => 'Jane Smith',
+        'class' => 'B'
+      ),
+      array(
+        'rollno' => 3,
+        'name' => 'Bob Johnson',
+        'class' => 'C'
+      ),
+      array(
+        'rollno' => 4,
+        'name' => 'Alice Williams',
+        'class' => 'D'
+      ),
+      array(
+        'rollno' => 5,
+        'name' => 'Charlie Brown',
+        'class' => 'E'
+      )
+    );
+
+    $this->db->insert_batch('student', $data);
+  }
+
+  public function display_students() {
+    $query = $this->db->get('student');
+    $students = $query->result_array();
+
+    foreach ($students as $student) {
+      echo $student['rollno'] . ': ' . $student['name'] . ', Class: ' . $student['class'] . '<br>';
+    }
+  }
+
+}
+
+
+Q. 2) Consider any text paragraph. Preprocess the text to remove any special characters and
+ digits.
+
+import re
+
+text = """In 2021, the world's first space hotel is set to open. The hotel, named Voyager Station, will be operated by Orbital Assembly Corporation. It will have 24 modules connected by elevator shafts that make up a rotating wheel orbiting the Earth. The hotel will have artificial gravity, and guests will be able to participate in recreational activities such as low-gravity basketball and rock climbing."""
+
+# Preprocess the text to remove special characters and digits
+text = re.sub(r'[^a-zA-Z\s]', '', text)
+
+print(text)
+
+
+
+
+Slip 24
+
+Q. 1) Write a PHP script to create student.xml file which contains student roll no, name, address, college 
+and course. Print students detail of specific course in tabular format after accepting course as input.
+
+<?php
+
+// Create the XML document
+$doc = new DOMDocument();
+$doc->formatOutput = true;
+
+// Create the root element
+$root = $doc->createElement('students');
+$doc->appendChild($root);
+
+// Add some student elements
+$students = array(
+  array(
+    'rollno' => 1,
+    'name' => 'John Doe',
+    'address' => '123 Main St',
+    'college' => 'ABC College',
+    'course' => 'Computer Science'
+  ),
+  array(
+    'rollno' => 2,
+    'name' => 'Jane Smith',
+    'address' => '456 Elm St',
+    'college' => 'XYZ College',
+    'course' => 'Mathematics'
+  ),
+  array(
+    'rollno' => 3,
+    'name' => 'Bob Johnson',
+    'address' => '789 Oak St',
+    'college' => 'ABC College',
+    'course' => 'Physics'
+  ),
+  array(
+    'rollno' => 4,
+    'name' => 'Alice Williams',
+    'address' => '321 Pine St',
+    'college' => 'XYZ College',
+    'course' => 'Biology'
+  ),
+  array(
+    'rollno' => 5,
+    'name' => 'Charlie Brown',
+    'address' => '654 Maple St',
+    'college' => 'ABC College',
+    'course' => 'Chemistry'
+  )
+);
+
+foreach ($students as $student) {
+  $studentElement = $doc->createElement('student');
+  $root->appendChild($studentElement);
+
+  foreach ($student as $key => $value) {
+    $element = $doc->createElement($key, $value);
+    $studentElement->appendChild($element);
+  }
+}
+
+// Save the XML document to a file
+$doc->save('student.xml');
+
+// Load the XML document from the file
+$xml = simplexml_load_file('student.xml');
+
+// Get the course to display from the user input
+$course = $_GET['course'];
+
+// Display the student details in a table
+echo '<table border="1">';
+echo '<tr><th>Roll No</th><th>Name</th><th>Address</th><th>College</th><th>Course</th></tr>';
+foreach ($xml->student as $student) {
+  if ($student->course == $course) {
+    echo '<tr>';
+    echo '<td>' . $student->rollno . '</td>';
+    echo '<td>' . $student->name . '</td>';
+    echo '<td>' . $student->address . '</td>';
+    echo '<td>' . $student->college . '</td>';
+    echo '<td>' . $student->course . '</td>';
+    echo '</tr>';
+  }
+}
+echo '</table>';
+
+?>
+
+
+Q. 2) Consider the following dataset : https://www.kaggle.com/datasets/datasnaek/youtubenew?select=INvideos.csv 
+Write a Python script for the following : 
+i. Read the dataset and perform data cleaning operations on it.
+ii. ii. Find the total views, total likes, total dislikes and comment count.
+
+import pandas as pd
+
+# Read the dataset
+df = pd.read_csv('https://www.kaggle.com/datasets/datasnaek/youtubenew?select=INvideos.csv')
+
+# Perform data cleaning operations
+df = df.dropna()
+df = df.drop_duplicates()
+
+# Find the total views, total likes, total dislikes and comment count
+total_views = df['views'].sum()
+total_likes = df['likes'].sum()
+total_dislikes = df['dislikes'].sum()
+total_comments = df['comment_count'].sum()
+
+print(f'Total Views: {total_views}')
+print(f'Total Likes: {total_likes}')
+print(f'Total Dislikes: {total_dislikes}')
+print(f'Total Comments: {total_comments}')
+
+
+
+
+Slip 25
+
+Q. 1) Write a script to create “cricket.xml” file with multiple elements as shown below:
+<CricketTeam>
+<Team country=”Australia”>
+<player>____</player>
+<runs>______</runs>
+<wicket>____</wicket>
+</Team>
+</CricketTeam>
+Write a script to add multiple elements in “cricket.xml” file of category, country=”India”
+
+//cricket.xml
+<cricket>
+  <category country="India" />
+  <category country="India" />
+  <category country="India" />
+  <category country="India" />
+  <category country="India" />
+</cricket>
+
+
+//python....
+import xml.etree.ElementTree as ET
+
+# Create the root element
+root = ET.Element('cricket')
+
+# Add multiple elements of category with the attribute country="India"
+for i in range(5):
+    category = ET.SubElement(root, 'category', attrib={'country': 'India'})
+
+# Write the XML tree to a file
+tree = ET.ElementTree(root)
+tree.write('cricket.xml')
+
+
+
+Q. 2) Consider the following dataset : https://www.kaggle.com/datasets/seungguini/youtube-commentsfor-covid19-relatedvideos?select=covid_2021_1.csv 
+Write a Python script for the following :
+i. Read the dataset and perform data cleaning operations on it. 
+ii. ii. Tokenize the comments in words. iii. Perform sentiment analysis and find the percentage of 
+positive, negative and neutral comments.. 
+
+import pandas as pd
+from nltk.sentiment import SentimentIntensityAnalyzer
+from nltk.tokenize import word_tokenize
+
+# Read the dataset
+df = pd.read_csv('https://www.kaggle.com/datasets/seungguini/youtube-commentsfor-covid19-relatedvideos?select=covid_2021_1.csv')
+
+# Perform data cleaning operations
+df = df.dropna()
+df = df.drop_duplicates()
+
+# Tokenize the comments into words
+df['tokens'] = df['comment'].apply(word_tokenize)
+
+# Initialize the sentiment analyzer
+sia = SentimentIntensityAnalyzer()
+
+# Perform sentiment analysis on the comments
+df['sentiment'] = df['comment'].apply(lambda x: sia.polarity_scores(x)['compound'])
+
+# Find the percentage of positive, negative and neutral comments
+positive_comments = df[df['sentiment'] > 0.05].shape[0]
+negative_comments = df[df['sentiment'] < -0.05].shape[0]
+neutral_comments = df[(df['sentiment'] >= -0.05) & (df['sentiment'] <= 0.05)].shape[0]
+
+total_comments = positive_comments + negative_comments + neutral_comments
+
+positive_percentage = positive_comments / total_comments * 100
+negative_percentage = negative_comments / total_comments * 100
+neutral_percentage = neutral_comments / total_comments * 100
+
+print(f'Positive Comments: {positive_percentage:.2f}%')
+print(f'Negative Comments: {negative_percentage:.2f}%')
+print(f'Neutral Comments: {neutral_percentage:.2f}%')
+
+
+
+
+
+Slip 26
+
+Q. 1) Create employee table as follows EMP (eno, ename, designation, salary). Write Ajax program to 
+select the employees name and print the selected employee’s details. 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajax Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Define the employee data
+        const employees = [
+            { eno: 1, ename: 'Alice', designation: 'Manager', salary: 80000 },
+            { eno: 2, ename: 'Bob', designation: 'Developer', salary: 70000 },
+            { eno: 3, ename: 'Charlie', designation: 'Designer', salary: 60000 }
+        ];
+
+        $(document).ready(function() {
+            // Populate the dropdown menu with employee names
+            employees.forEach(employee => {
+                $('#employee-select').append(`<option value="${employee.eno}">${employee.ename}</option>`);
+            });
+
+            // Handle the change event of the dropdown menu
+            $('#employee-select').on('change', function() {
+                // Get the selected employee number
+                const eno = $(this).val();
+
+                // Find the employee with the selected number
+                const employee = employees.find(employee => employee.eno == eno);
+
+                // Display the employee details
+                $('#employee-details').html(`
+                    <p>Employee Number: ${employee.eno}</p>
+                    <p>Employee Name: ${employee.ename}</p>
+                    <p>Designation: ${employee.designation}</p>
+                    <p>Salary: $${employee.salary}</p>
+                `);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Select an Employee</h1>
+    <select id="employee-select">
+        <option value="">--Select an Employee--</option>
+    </select>
+    <div id="employee-details"></div>
+</body>
+</html>
+
+
+Q. 2 )Consider text paragraph. """Hello all, Welcome to Python Programming Academy. Python 
+Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled 
+in this Academy.""" Preprocess the text to remove any special characters and digits. Generate the 
+summary using extractive summarization process. 
+
+import re
+from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize, word_tokenize
+from heapq import nlargest
+
+text = """Hello all, Welcome to Python Programming Academy. Python Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled in this Academy."""
+
+# Preprocess the text to remove any special characters and digits
+text = re.sub(r'[^\w\s]', '', text)
+text = re.sub(r'\d+', '', text)
+
+# Tokenize the text into sentences
+sentences = sent_tokenize(text)
+
+# Define a function to calculate the word frequencies
+def get_word_frequencies(text):
+    # Tokenize the text into words
+    words = word_tokenize(text)
+
+    # Remove stopwords
+    stop_words = set(stopwords.words('english'))
+    words = [word for word in words if word not in stop_words]
+
+    # Calculate the word frequencies
+    word_frequencies = {}
+    for word in words:
+        if word not in word_frequencies:
+            word_frequencies[word] = 1
+        else:
+            word_frequencies[word] += 1
+
+    return word_frequencies
+
+# Calculate the sentence scores
+word_frequencies = get_word_frequencies(text)
+sentence_scores = {}
+for sentence in sentences:
+    for word in word_tokenize(sentence):
+        if word in word_frequencies:
+            if sentence not in sentence_scores:
+                sentence_scores[sentence] = word_frequencies[word]
+            else:
+                sentence_scores[sentence] += word_frequencies[word]
+
+# Generate the summary using extractive summarization process
+summary_length = 1
+summary_sentences = nlargest(summary_length, sentence_scores, key=sentence_scores.get)
+summary = ' '.join(summary_sentences)
+
+print(f'Summary: {summary}')
+
+
+
+
+Slip 27
+
+Q. 1) Create web Application that contains Voters details and check proper validation for (name, 
+age, and nationality), as Name should be in upper case letters only, Age should not be less than 
+18 yrs and Nationality should be Indian.(use HTML-AJAX-PHP)
+
+//index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Voter Details</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Handle the form submission
+            $('#voter-form').on('submit', function(event) {
+                event.preventDefault();
+
+                // Get the form data
+                const name = $('#name').val();
+                const age = $('#age').val();
+                const nationality = $('#nationality').val();
+
+                // Send the form data to the server using Ajax
+                $.ajax({
+                    url: 'validate.php',
+                    type: 'POST',
+                    data: { name: name, age: age, nationality: nationality },
+                    success: function(response) {
+                        // Display the server response
+                        $('#response').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Voter Details</h1>
+    <form id="voter-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br><br>
+        <label for="nationality">Nationality:</label>
+        <input type="text" id="nationality" name="nationality" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <div id="response"></div>
+</body>
+</html>
+
+
+//validate.php
+
+<?php
+
+// Get the form data
+$name = $_POST['name'];
+$age = $_POST['age'];
+$nationality = $_POST['nationality'];
+
+// Check for proper validation
+if (strtoupper($name) != $name) {
+    echo 'Name should be in upper case letters only.';
+} elseif ($age < 18) {
+    echo 'Age should not be less than 18 years.';
+} elseif ($nationality != 'Indian') {
+    echo 'Nationality should be Indian.';
+} else {
+    echo 'Validation successful!';
+}
+
+?>
+
+
+
+Q. 2 ) Create your own transactions dataset and apply the above process on your dataset 
+// Question incomplete
+
+
+
+
+Slip 28
+
+Q. 1) Write a PHP script using AJAX concept, to check user name and password are valid or Invalid (use 
+database to store user name and password).
+
+//index.html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Handle the form submission
+            $('#login-form').on('submit', function(event) {
+                event.preventDefault();
+
+                // Get the form data
+                const username = $('#username').val();
+                const password = $('#password').val();
+
+                // Send the form data to the server using Ajax
+                $.ajax({
+                    url: 'login.php',
+                    type: 'POST',
+                    data: { username: username, password: password },
+                    success: function(response) {
+                        // Display the server response
+                        $('#response').html(response);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+    <div id="response"></div>
+</body>
+</html>
+
+
+//login.php
+<?php
+
+// Connect to the database
+$db = mysqli_connect('hostname', 'username', 'password', 'database_name');
+
+// Check if the connection was successful
+if (!$db) {
+    die('Connection failed: ' . mysqli_connect_error());
+}
+
+// Get the form data
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+// Check if the username and password are valid
+$query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+$result = mysqli_query($db, $query);
+
+if (mysqli_num_rows($result) == 1) {
+    echo 'Login successful!';
+} else {
+    echo 'Invalid username or password.';
+}
+
+?>
+
+
+Q. Build a simple linear regression model for Car Dataset
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Load the car dataset
+df = pd.read_csv('cars.csv')
+
+# Define the features and target variable
+X = df[['engine_size', 'horsepower', 'weight']]
+y = df['mpg']
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Create a linear regression model
+model = LinearRegression()
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = model.predict(X_test)
+
+# Evaluate the model performance
+r2_score = model.score(X_test, y_test)
+print(f'R^2 Score: {r2_score:.2f}')
+
+
+
+
+
+
+Slip 29
+
+Q. 1) Write a PHP script for the following: Design a form to accept a number from the user. 
+Perform the operations and show the results. 
+1) Fibonacci Series. 
+2) To find sum of the digits of that number.
+(Use the concept of self processing page.)
+
+<?php
+
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get the form data
+    $number = $_POST['number'];
+
+    // Calculate the Fibonacci series
+    $fibonacci = [0, 1];
+    for ($i = 2; $i < $number; $i++) {
+        $fibonacci[] = $fibonacci[$i - 1] + $fibonacci[$i - 2];
+    }
+
+    // Find the sum of the digits of the number
+    $sum_of_digits = array_sum(str_split($number));
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PHP Form</title>
+</head>
+<body>
+    <h1>PHP Form</h1>
+    <form method="post">
+        <label for="number">Number:</label>
+        <input type="number" id="number" name="number" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <?php if (isset($fibonacci)): ?>
+        <h2>Fibonacci Series:</h2>
+        <p><?php echo implode(', ', $fibonacci); ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($sum_of_digits)): ?>
+        <h2>Sum of Digits:</h2>
+        <p><?php echo $sum_of_digits; ?></p>
+    <?php endif; ?>
+</body>
+</html>
+
+
+Q. 2 ) Build a logistic regression model for Student Score Dataset.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+# Load the student score dataset
+df = pd.read_csv('student_scores.csv')
+
+# Define the features and target variable
+X = df[['hours_studied']]
+y = df['pass_exam']
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Create a logistic regression model
+model = LogisticRegression()
+
+# Train the model on the training data
+model.fit(X_train, y_train)
+
+# Make predictions on the test data
+y_pred = model.predict(X_test)
+
+# Evaluate the model performance
+accuracy_score = model.score(X_test, y_test)
+print(f'Accuracy Score: {accuracy_score:.2f}')
+
+
+
+
+
+Slip 30
+
+Q. 1) Create a XML file which gives details of books available in “Bookstore” from following 
+categories. 
+1) Yoga
+2) Story
+3) Technical
+and elements in each category are in the following format
+<Book>
+<Book_Title> --------------</Book_Title>
+<Book_Author> ---------------</Book_Author>
+<Book_Price> --------------</Book_Price>
+</Book>
+Save the file as “Bookcategory.xml” 
+
+import xml.etree.ElementTree as ET
+
+# Create the root element
+root = ET.Element('bookstore')
+
+# Add the Yoga category
+yoga = ET.SubElement(root, 'category', attrib={'name': 'Yoga'})
+
+# Add books to the Yoga category
+ET.SubElement(yoga, 'book', attrib={'title': 'Light on Yoga', 'author': 'B.K.S. Iyengar'})
+ET.SubElement(yoga, 'book', attrib={'title': 'The Yoga Sutras of Patanjali', 'author': 'Sri Swami Satchidananda'})
+
+# Add the Story category
+story = ET.SubElement(root, 'category', attrib={'name': 'Story'})
+
+# Add books to the Story category
+ET.SubElement(story, 'book', attrib={'title': 'To Kill a Mockingbird', 'author': 'Harper Lee'})
+ET.SubElement(story, 'book', attrib={'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald'})
+
+# Add the Technical category
+technical = ET.SubElement(root, 'category', attrib={'name': 'Technical'})
+
+# Add books to the Technical category
+ET.SubElement(technical, 'book', attrib={'title': 'The Pragmatic Programmer', 'author': 'Andrew Hunt and David Thomas'})
+ET.SubElement(technical, 'book', attrib={'title': 'Clean Code', 'author': 'Robert C. Martin'})
+
+# Write the XML tree to a file
+tree = ET.ElementTree(root)
+tree.write('Bookcategory.xml')
+
+
+Q. 2 ) Create the dataset . transactions = [['eggs', 'milk','bread'], ['eggs', 'apple'], ['milk', 'bread'], ['apple',
+'milk'], ['milk', 'apple', 'bread']] .
+Convert the categorical values into numeric format.Apply the apriori algorithm on the above dataset to
+generate the frequent itemsets and association rules. 
+
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+
+# Create the dataset
+transactions = [['eggs', 'milk', 'bread'], ['eggs', 'apple'], ['milk', 'bread'], ['apple', 'milk'], ['milk', 'apple', 'bread']]
+
+# Convert the categorical values into numeric format
+te = TransactionEncoder()
+te_ary = te.fit(transactions).transform(transactions)
+df = pd.DataFrame(te_ary, columns=te.columns_)
+
+# Apply the apriori algorithm to generate frequent itemsets
+frequent_itemsets = apriori(df, min_support=0.6, use_colnames=True)
+
+# Generate association rules
+rules = association_rules(frequent_itemsets, metric='confidence', min_threshold=0.7)
+
+print(f'Frequent Itemsets:\n{frequent_itemsets}\n')
+print(f'Association Rules:\n{rules}')
